@@ -3,6 +3,8 @@ from datetime import datetime
 from sqlalchemy import Integer, String, Text, DateTime, func
 from sqlalchemy.orm import Mapped, mapped_column
 
+from . import Base
+
 class ApplicationDBModel(Base):
     __tablename__ = "application"
 

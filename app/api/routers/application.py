@@ -1,25 +1,28 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.crud.application import get_application_by_id, create_application
+from app.crud import application
 from app.schemas.application import ApplicationResponse, ApplicationBase
+from app.models.application import ApplicationDBModel
 
 
 router = APIRouter(
-    prefix="/api/applications",
+    prefix="/applications",
     tags=["applications"],
     responses={404: {"description": "Not Found"}}
 )
 
+# TODO: add caching for fast retrieval
 @router.get(
-    "/applications/{application_id}",
+    "/{application_id}",
     response_model=ApplicationResponse
 )
-async def get_application_by_id(application_id: int, db_session=None) -> ApplicationResponse:
-    application = await get_applications(db_session)
+async def application_details(application_id: int, db_session: AsyncSession=Depends(get_db_session)) -> ApplicationResponse:
+    application = await application.fetch_by_id(application_id, db_session)
     return ApplicationResponse.from_orm(application)
 
 
-@router.post("/applications")
-def create_application(application: Application, db_sessio: Session=None) -> ApplicationResponse:
-    pass
+@router.post("/", response_model=ApplicationResponse)
+def create_application(application: ApplicationBase, db_session: AsyncSession=Depends(get_db_session)) -> ApplicationResponse:
+    application = await application.create(application, db_session)
+    return ApplicationResponse.from_orm(application)
