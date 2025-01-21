@@ -18,25 +18,25 @@ class Base(DeclarativeBase):
 class DatabaseSessionManager:
     def __init__(self):
         # TODO: What does `AsyncEngine | None` mean?
-        self.engine: AsyncEngine | None = None
+        self._engine: AsyncEngine | None = None
         # TODO: Check for the type for `self.__sessionmaker`
-        self.sessionmaker: AsyncSession | None = None
-
-    @property.setter
-    def engine(self, engin: AsyncEngine):
-        self.__engine = engin
+        self._sessionmaker: AsyncSession | None = None
 
     @property
     def engine(self) -> AsyncEngine:
         return self.__engine
 
-    @property.setter
-    def sessionmaker(self, session_manager: AsyncSession):
-        self.__sessionmaker = session_manager
+    @engine.setter
+    def engine(self, engine: AsyncEngine):
+        self.__engine = engine
 
     @property
     def sessionmaker(self) -> AsyncSession:
         return self.__sessionmaker
+
+    @sessionmaker.setter
+    def sessionmaker(self, session_manager: AsyncSession):
+        self.__sessionmaker = session_manager
     
     def init(self, host: str):
         self.__engine = create_async_engine(host)
