@@ -9,6 +9,9 @@ class ApplicationBase(BaseModel):
     description: str
 
 
+class ApplicationCreate(ApplicationBase):
+    pass
+
 class ApplicationResponse(ApplicationBase):
     id: int
     created_at: datetime
