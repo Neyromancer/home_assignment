@@ -1,3 +1,5 @@
+TEST_DIRS := test
+
 .PHONY: setup
 setup: pyproject.toml
 	@echo "Installing project dependencies"
@@ -9,7 +11,8 @@ fmt:
 
 .PHONY: test
 test: tests/*.py
-	@echo "Run tests"
+	@echo "Running tests"
+	poetry run python -m pytest $(TEST_DIRS)
 
 
 .PHONY: clean
