@@ -2,7 +2,7 @@ import uvicorn
 
 from fastapi import FastAPI
 
-from app.api.routers.application import router as application_router
+from api.routers.application import router as application_router
 
 app = FastAPI(title="BeWise HomeAssignment")
 

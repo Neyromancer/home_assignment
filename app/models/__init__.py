@@ -1,3 +1,3 @@
-from app.database import Base
+from database import Base
 
-from .application import application
+# from .application import application
