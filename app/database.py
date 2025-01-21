@@ -17,9 +17,26 @@ class Base(DeclarativeBase):
 
 class DatabaseSessionManager:
     def __init__(self):
-        self.__engine: AsyncEngine | None = None
+        # TODO: What does `AsyncEngine | None` mean?
+        self.engine: AsyncEngine | None = None
         # TODO: Check for the type for `self.__sessionmaker`
-        self.__sessionmaker: async_sessionmaker | None = None
+        self.sessionmaker: AsyncSession | None = None
+
+    @property.setter
+    def engine(self, engin: AsyncEngine):
+        self.__engine = engin
+
+    @property
+    def engine(self) -> AsyncEngine:
+        return self.__engine
+
+    @property.setter
+    def sessionmaker(self, session_manager: AsyncSession):
+        self.__sessionmaker = session_manager
+
+    @property
+    def sessionmaker(self) -> AsyncSession:
+        return self.__sessionmaker
     
     def init(self, host: str):
         self.__engine = create_async_engine(host)
@@ -33,6 +50,7 @@ class DatabaseSessionManager:
         self.__engine = None
         self.__sessionmaker = None
     
+    # TODO: What does this do?
     @contextlib.asynccontextmanager
     async def connect(self) -> AsyncIterator[AsyncConnection]:
         if self.__engine is None:
