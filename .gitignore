@@ -1,2 +1,13 @@
 ._*
 __pycache__/
+*.py[cod]
+*$py.class
+
+# virtualenv
+.venv
+venv/
+ENV/
+
+# Pytest
+.pytest_cache/
+pytest.ini
