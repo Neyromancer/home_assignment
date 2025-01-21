@@ -1,13 +1,16 @@
 from fastapi import HTTPException
 from sqlalchemy import select
+# TODO: check type of error and their use
+from sqlalchemy.exc import NoResultFound
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.application import ApplicationDBModel
 from schemas.application import ApplicationBase, ApplicationResponse, ApplicationCreate
 
 async def fetch_by_id(application_id: int, db_session: AsyncSession) -> ApplicationDBModel:
-    application = (await db_session.scalars(select(ApplicationDBModel).where(ApplicationDBModel.id == application_id))).first()
-    if not application:
+    try:
+        application = (await db_session.scalars(select(ApplicationDBModel).where(ApplicationDBModel.id == application_id))).first()
+    except NoResultFound:
         raise HTTPException(status_code=404, detail=f"Application {application_id} not found")
     return application
 

@@ -4,14 +4,14 @@ from pydantic import BaseModel, ConfigDict
 
 
 class ApplicationBase(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-    username: str
-    description: str
+    username: str | None = None
+    description: str | None = None
 
 
 class ApplicationCreate(ApplicationBase):
     pass
 
 class ApplicationResponse(ApplicationBase):
+    model_config = ConfigDict(from_attributes=True)
     id: int
     created_at: datetime
