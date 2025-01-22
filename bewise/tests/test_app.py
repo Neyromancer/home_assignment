@@ -25,7 +25,7 @@ async def test_get_all_applications(client, test_application_data):
 
     response = client.get("/applications")
     assert response.status_code == 200
-    
+
     applications = response.json()
     assert len(applications) == 2
     assert applications[0]["username"] == test_application_data[0]["username"]
