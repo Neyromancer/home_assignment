@@ -17,23 +17,6 @@ router = APIRouter(
     responses={404: {"description": "Not Found"}},
 )
 
-# Use it to test API work
-fake_application_db = {
-    1: {
-        "id": 1,
-        "username": "TestUser1",
-        "description": "TestUser1 application description",
-        "creation_time": "2025-01-21T14:00:05.337Z",
-    },
-    2: {
-        "id": 2,
-        "username": "TestUser2",
-        "description": "TestUser2 application description",
-        "creation_time": "2025-01-21T14:05:05.337Z",
-    },
-}
-db_id: list[int] = [2]
-
 
 @router.get(
     "/",
@@ -43,7 +26,7 @@ db_id: list[int] = [2]
 )
 async def get_applications(
     page: int = Query(1, ge=1, description="Page number"),
-    size: int = Query(10, ge=1, le=100, description="Items per page"),
+    size: int = Query(20, ge=1, le=100, description="Items per page"),
     database_session: AsyncSession = Depends(get_database_session),
 ) -> list[ApplicationResponse]:
     # Why is this strange formula ` skip=(page - 1) * size` used?
