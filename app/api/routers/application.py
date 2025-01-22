@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud import database_requests
 from app.schemas.database_validation_schemas import ApplicationBase, ApplicationResponse, ApplicationCreate
-from app.models.application import ApplicationDBModel
+from app.models.database_data_models import ApplicationDBModel
 from app.database import get_db_session
 
 # ##########################################################

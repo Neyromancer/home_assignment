@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound, SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.application import ApplicationDBModel
+from app.models.database_data_models import ApplicationDBModel
 from app.schemas.database_validation_schemas import ApplicationBase, ApplicationResponse, ApplicationCreate
 
 async def fetch_by_username(db_session: AsyncSession, username: str) -> list[ApplicationDBModel]:
