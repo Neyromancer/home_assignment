@@ -13,7 +13,7 @@ from app.database import get_db_session
 router = APIRouter(
     prefix="/applications",
     tags=["applications"],
-    dependencies=[Depends(get_db_session)],
+    # dependencies=[Depends(get_db_session)],
     responses={404: {"description": "Not Found"}}
 )
 
@@ -24,19 +24,19 @@ db_id: list[int] = [2]
 # TODO: add caching for fast retrieval
 # TODO: Check what is the best practice for filtering
 @router.get("/{username}", response_model=list[ApplicationResponse])
-async def application_details(db_session: AsyncSession, username: str) -> list[ApplicationResponse]:
+async def application_details(username: str, db_session: AsyncSession = Depends(get_db_session)) -> list[ApplicationResponse]:
     applications = await application.fetch_by_username(db_session, username)
     return list(map(ApplicationResponse.from_orm, applications))
 
 
 @router.get("/", response_model=list[ApplicationResponse])
-async def get_applications(db_session: AsyncSession, page: int = Query(1, ge=1, description="Page number"), size: int = Query(10, ge=1, le=100, description="Items per page")) -> list[ApplicationResponse]:
+async def get_applications(page: int = Query(1, ge=1, description="Page number"), size: int = Query(10, ge=1, le=100, description="Items per page"), db_session: AsyncSession = Depends(get_db_session)) -> list[ApplicationResponse]:
     # Why is this strange formula ` skip=(page - 1) * size` used?
     applications = await application.fetch_all(db_session, skip=(page - 1) * size, limit=size)
     return [ApplicationResponse.model_validate(application) for application in applications]
 
 
 @router.post("/", response_model=ApplicationResponse)
-async def create_application(db_session: AsyncSession, application: ApplicationCreate) -> ApplicationResponse:
+async def create_application(application: ApplicationCreate, db_session: AsyncSession = Depends(get_db_session)) -> ApplicationResponse:
     application = await application.create(db_session, application)
     return ApplicationResponse.from_orm(application)

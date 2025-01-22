@@ -6,6 +6,7 @@ from app.config import config
 from app.database import sessionmanager
 
 def init_app(init_db=True) -> FastAPI:
+    lifespan = None
     if init_db:
         sessionmanager.init(config.DB_CONFIG)
 
