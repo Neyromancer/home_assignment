@@ -61,10 +61,15 @@ async def create_tables(database_session_connection_test):
 
 @pytest.fixture
 def test_application_data():
-    return {
+    return [{
         "username": "TestUser1",
         "description": "TestUser1 application description"
-    }
+    },
+    {
+        "username": "TestUser2",
+        "description": "TestUser2 application description"
+    },
+    ]
 
 # TODO: check if this scope level has to be excplicitly mentioned
 @pytest.fixture(scope="function", autouse=True)
