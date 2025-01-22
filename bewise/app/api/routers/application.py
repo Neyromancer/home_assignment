@@ -24,7 +24,7 @@ router = APIRouter(
     summary="Get all applications",
     description="Retrieve all applications with optional pagination",
 )
-async def get_applications(
+async def get_all_applications(
     page: int = Query(1, ge=1, description="Page number"),
     size: int = Query(20, ge=1, le=100, description="Items per page"),
     database_session: AsyncSession = Depends(get_database_session),
@@ -46,7 +46,7 @@ async def get_applications(
     response_model=list[ApplicationResponse],
     summary="Get applications by username",
 )
-async def application_details(
+async def get_applications_by_user(
     username: str, database_session: AsyncSession = Depends(get_database_session)
 ) -> list[ApplicationResponse]:
     fetched_user_applications = await database_requests.fetch_by_username(

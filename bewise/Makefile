@@ -1,5 +1,4 @@
 TEST_DIRS := tests
-PROJECT_DIRS := app/* tests/*
 PYTHON_FILES := app/*.py tests/*.py
 
 .PHONY: setup

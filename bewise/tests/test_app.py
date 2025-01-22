@@ -4,7 +4,7 @@ async def test_get_empty_applications(client):
     assert response.json()["detail"] == "Failed to fetch applications from Database"
 
 
-async def test_get_application_by_username(client, test_application_data):
+async def test_get_applications_by_username(client, test_application_data):
     create_response = client.post("/applications", json=test_application_data[0])
     assert create_response.status_code == 201
 
