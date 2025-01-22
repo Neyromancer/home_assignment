@@ -10,7 +10,7 @@ from sqlalchemy.testing.entities import ComparableEntity
 
 from app import init_app
 from app.models.database_data_models import ApplicationDBModel
-from app.database import get_db_session, sessionmanager
+from app.database import get_database_session, sessionmanager
 
 
 # what does `autouse` mean?
@@ -39,7 +39,7 @@ def event_loop(request):
 
 
 @pytest.fixture(scope="session", autouse=True)
-async def db_session_connection_test(test_db, event_loop):
+async def database_session_connection_test(test_db, event_loop):
     pg_host = test_db.host
     pg_port = test_db.port
     pg_user = test_db.user
@@ -54,7 +54,7 @@ async def db_session_connection_test(test_db, event_loop):
 
 
 @pytest.fixture(scope="function", autouse=True)
-async def create_tables(db_session_connection_test):
+async def create_tables(database_session_connection_test):
     async with sessionmanager.connect() as connection:
         await sessionmanager.drop_all(connection)
         await sessionmanager.create_all(connection)
@@ -68,9 +68,9 @@ def test_application_data():
 
 # TODO: check if this scope level has to be excplicitly mentioned
 @pytest.fixture(scope="function", autouse=True)
-async def session_override(app, db_session_connection_test):
+async def session_override(app, database_session_connection_test):
     async def get_db_override():
         async with sessionmanager.session() as session:
             yield session
 
-    app.dependency_overrides[get_db_session] = get_db_override
+    app.dependency_overrides[get_database_session] = get_db_override

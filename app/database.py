@@ -88,6 +88,6 @@ class DatabaseSessionManager:
 sessionmanager = DatabaseSessionManager()
 
 
-async def get_db_session():
+async def get_database_session():
     async with sessionmanager.session() as session:
         yield session
