@@ -9,7 +9,7 @@ from pytest_postgresql.janitor import DatabaseJanitor
 from sqlalchemy.testing.entities import ComparableEntity
 
 from app import init_app
-from app.models.application import ApplicationDBModel
+from app.models.database_data_models import ApplicationDBModel
 from app.database import get_db_session, sessionmanager
 
 
