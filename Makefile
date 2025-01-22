@@ -1,4 +1,4 @@
-TEST_DIRS := test
+TEST_DIRS := tests
 
 .PHONY: setup
 setup: pyproject.toml
@@ -10,7 +10,7 @@ fmt:
 	@echo "Format code"
 
 .PHONY: test
-test: tests/*.py
+test: $(TEST_DIRS)/*.py
 	@echo "Running tests"
 	poetry run python -m pytest $(TEST_DIRS)
 
