@@ -1,5 +1,6 @@
 TEST_DIRS := tests
-PYTHON_FILES := $(filter-out __pytcache__, app/*.py tests/*.py)
+PROJECT_DIRS := app tests
+PYTHON_FILES := app/*.py tests/*.py
 
 .PHONY: setup
 setup: pyproject.toml
@@ -19,5 +20,5 @@ test: $(TEST_DIRS)/*.py
 
 .PHONY: clean
 clean:
-	@echo "Cleaning project"
-	# remove all the unused files
+	@echo "Cleaning project: $(CLEANED_FILES)"
+	ls -R $(PROJECT_DIRS) | grep __pycache__ | xargs rm -rf
