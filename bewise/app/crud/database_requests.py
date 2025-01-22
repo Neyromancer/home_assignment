@@ -4,9 +4,13 @@ from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound, SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from aiocache import cached, Cache
+from aiocache.serializers import PickleSerializer
+
 from app.models.database_data_models import ApplicationDBModel
 from app.schemas.database_validation_schemas import ApplicationBase, ApplicationResponse, ApplicationCreate
 
+@cached(cache=Cache.REDIS, ttl=60, serializer=PickleSerializer(), port=6379, namespace="main")
 async def fetch_by_username(database_session: AsyncSession, username: str) -> list[ApplicationDBModel]:
     try:
         database_query = select(ApplicationDBModel).where(ApplicationDBModel.username == username)
@@ -21,6 +25,7 @@ async def fetch_by_username(database_session: AsyncSession, username: str) -> li
 
 # in case of large dataset cursor could be used: 
 # https://docs.sqlalchemy.org/en/20/core/connections.html#engine-stream-results
+@cached(cache=Cache.REDIS, ttl=60, serializer=PickleSerializer(), port=6379, namespace="main")
 async def fetch_all(database_session: AsyncSession, skip: int = 0, limit: int = 100):
     try:
         database_query = select(ApplicationDBModel).offset(skip).limit(limit)
