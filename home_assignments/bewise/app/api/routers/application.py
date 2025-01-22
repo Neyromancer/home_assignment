@@ -6,9 +6,6 @@ from app.schemas.database_validation_schemas import ApplicationBase, Application
 from app.models.database_data_models import ApplicationDBModel
 from app.database import get_database_session
 
-# ##########################################################
-# TODO: Add support for pagination (parameters: page и size).
-# ##########################################################
 
 router = APIRouter(
     prefix="/applications",
