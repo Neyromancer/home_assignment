@@ -1,5 +1,5 @@
 TEST_DIRS := tests
-PROJECT_DIRS := app tests
+PROJECT_DIRS := app/* tests/*
 PYTHON_FILES := app/*.py tests/*.py
 
 .PHONY: setup
@@ -20,5 +20,5 @@ test: $(TEST_DIRS)/*.py
 
 .PHONY: clean
 clean:
-	@echo "Cleaning project: $(CLEANED_FILES)"
-	ls -R $(PROJECT_DIRS) | grep __pycache__ | xargs rm -rf
+	@echo "Cleaning project"
+	find . | grep -E "(__pycache__|\.pyc|\.pyo)" | xargs rm -rf
