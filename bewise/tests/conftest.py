@@ -56,9 +56,7 @@ async def database_session_connection_test(test_db, event_loop):
         version=test_db.version,
         password=pg_password,
     ):
-        db_connection_url = (
-            f"postgresql+psycopg://{pg_user}:@{pg_host}:{pg_port}/{pg_db}"
-        )
+        db_connection_url = f"postgresql+psycopg://{pg_user}:@{pg_host}:{pg_port}/{pg_db}"
         sessionmanager.init(db_connection_url)
         yield
         await sessionmanager.close()
