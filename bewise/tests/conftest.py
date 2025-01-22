@@ -7,10 +7,8 @@ import pytest
 from fastapi.testclient import TestClient
 from pytest_postgresql import factories
 from pytest_postgresql.janitor import DatabaseJanitor
-from sqlalchemy.testing.entities import ComparableEntity
 
 from app import init_app
-from app.models.database_data_models import ApplicationDBModel
 from app.database import get_database_session, sessionmanager
 
 

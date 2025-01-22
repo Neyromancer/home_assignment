@@ -1,6 +1,3 @@
-from fastapi import HTTPException
-
-
 async def test_get_empty_applications(client):
     response = client.get("/applications")
     assert response.status_code == 404

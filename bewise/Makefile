@@ -14,6 +14,9 @@ fmt:
 
 .PHONY: test
 test: $(TEST_DIRS)/*.py
+	@echo "Validating files"
+	poetry run ruff check -v $(PYTHON_FILES)
+
 	@echo "Running tests"
 	poetry run python -m pytest $(TEST_DIRS)
 
