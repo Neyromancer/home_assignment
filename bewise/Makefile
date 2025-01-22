@@ -1,4 +1,5 @@
 TEST_DIRS := tests
+PYTHON_FILES := $(filter-out __pytcache__, app/*.py tests/*.py)
 
 .PHONY: setup
 setup: pyproject.toml
@@ -7,7 +8,8 @@ setup: pyproject.toml
 
 .PHONY: fmt
 fmt:
-	@echo "Format code"
+	@echo "Format code in ${PYTHON_FILES}"
+	poetry run ruff format $(PYTHON_FILES)
 
 .PHONY: test
 test: $(TEST_DIRS)/*.py

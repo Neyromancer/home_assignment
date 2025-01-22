@@ -32,6 +32,7 @@ async def test_get_all_applications(client, test_application_data):
     assert len(applications) == 2
     assert applications[0]["username"] == test_application_data[0]["username"]
 
+
 async def test_get_nonexistent_username(client):
     """Test retrieving application for non-existent username"""
     response = client.get("/applications/user/nonexistent")

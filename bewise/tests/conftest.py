@@ -1,4 +1,5 @@
 import asyncio
+
 # what is `ExitStack` for?
 from contextlib import ExitStack
 
@@ -27,6 +28,7 @@ def client(app):
     with TestClient(app) as test_client:
         yield test_client
 
+
 test_db = factories.postgresql_proc(port=None, dbname="test_db")
 
 
@@ -46,8 +48,17 @@ async def database_session_connection_test(test_db, event_loop):
     pg_db = test_db.dbname
     pg_password = test_db.password
 
-    with DatabaseJanitor(user=pg_user, host=pg_host, port=pg_port, dbname=pg_db, version=test_db.version, password=pg_password):
-        db_connection_url = f"postgresql+psycopg://{pg_user}:@{pg_host}:{pg_port}/{pg_db}"
+    with DatabaseJanitor(
+        user=pg_user,
+        host=pg_host,
+        port=pg_port,
+        dbname=pg_db,
+        version=test_db.version,
+        password=pg_password,
+    ):
+        db_connection_url = (
+            f"postgresql+psycopg://{pg_user}:@{pg_host}:{pg_port}/{pg_db}"
+        )
         sessionmanager.init(db_connection_url)
         yield
         await sessionmanager.close()
@@ -59,17 +70,14 @@ async def create_tables(database_session_connection_test):
         await sessionmanager.drop_all(connection)
         await sessionmanager.create_all(connection)
 
+
 @pytest.fixture
 def test_application_data():
-    return [{
-        "username": "TestUser1",
-        "description": "TestUser1 application description"
-    },
-    {
-        "username": "TestUser2",
-        "description": "TestUser2 application description"
-    },
+    return [
+        {"username": "TestUser1", "description": "TestUser1 application description"},
+        {"username": "TestUser2", "description": "TestUser2 application description"},
     ]
+
 
 # TODO: check if this scope level has to be excplicitly mentioned
 @pytest.fixture(scope="function", autouse=True)

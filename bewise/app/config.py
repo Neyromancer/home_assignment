@@ -1,5 +1,6 @@
 import os
 
+
 class Config:
     # TODO: How to set up local variables for `getenv`?
     DB_CONFIG = os.getenv(
@@ -9,7 +10,8 @@ class Config:
             DB_PASSWORD=os.getenv("DB_PASSWORD", "fastapi-password"),
             DB_HOST=os.getenv("DB_HOST", "fastapi-postgresql:5432"),
             DB_NAME=os.getenv("DB_NAME", "fastapi"),
-        )
+        ),
     )
+
 
 config = Config

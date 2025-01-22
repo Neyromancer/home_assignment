@@ -10,10 +10,12 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
+
 class Base(DeclarativeBase):
     # TODO: check this comment
     # https://docs.sqlalchemy.org/en/14/orm/extensions/asyncio.html#preventing-implicit-io-when-using-asyncsession
     __mapper_args__ = {"eager_defaults": True}
+
 
 class DatabaseSessionManager:
     def __init__(self):
@@ -37,37 +39,37 @@ class DatabaseSessionManager:
     @sessionmaker.setter
     def sessionmaker(self, session_manager: AsyncSession):
         self.__sessionmaker = session_manager
-    
+
     def init(self, host: str):
         self.__engine = create_async_engine(host)
         self.__sessionmaker = async_sessionmaker(autocommit=False, bind=self.__engine)
-    
+
     async def close(self):
         if self.__engine is None:
             raise Exception("Fail to initialize database session manager")
-        
+
         await self.__engine.dispose()
         self.__engine = None
         self.__sessionmaker = None
-    
+
     # TODO: What does this do?
     @contextlib.asynccontextmanager
     async def connect(self) -> AsyncIterator[AsyncConnection]:
         if self.__engine is None:
             raise Exception("Fail to initialize database session manager")
-        
+
         async with self.__engine.begin() as connection:
             try:
                 yield connection
             except Exception:
                 await connection.rollback()
                 raise
-    
+
     @contextlib.asynccontextmanager
     async def session(self) -> AsyncIterator[AsyncSession]:
         if self.__sessionmaker is None:
             raise Exception("Fail to initialize database session manager")
-        
+
         session = self.__sessionmaker()
         try:
             yield session
@@ -76,7 +78,7 @@ class DatabaseSessionManager:
             raise
         finally:
             await session.close()
-    
+
     # TODO: Read on these functions
     async def create_all(self, connection: AsyncConnection):
         await connection.run_sync(Base.metadata.create_all)

@@ -11,10 +11,11 @@ class ApplicationBase(BaseModel):
 class ApplicationCreate(ApplicationBase):
     pass
 
+
 class ApplicationResponse(ApplicationBase):
     id: int
     creation_time: datetime
 
     class Config:
         orm_mode = True
-        from_attributes=True
+        from_attributes = True
