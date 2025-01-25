@@ -2,7 +2,6 @@ import os
 
 
 class Config:
-    # TODO: How to set up local variables for `getenv`?
     DB_CONFIG = os.getenv(
         "DB_CONFIG",
         "postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}".format(

@@ -29,7 +29,6 @@ async def get_all_applications(
     size: int = Query(20, ge=1, le=100, description="Items per page"),
     database_session: AsyncSession = Depends(get_database_session),
 ) -> list[ApplicationResponse]:
-    # Why is this strange formula ` skip=(page - 1) * size` used?
     fetched_applications = await database_requests.fetch_all(
         database_session, skip=(page - 1) * size, limit=size
     )
@@ -39,7 +38,6 @@ async def get_all_applications(
     ]
 
 
-# TODO: add caching for fast retrieval
 # TODO: Check what is the best practice for filtering
 @router.get(
     "/{username}",

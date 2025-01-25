@@ -9,7 +9,6 @@ from . import Base
 class ApplicationDBModel(Base):
     __tablename__ = "applications"
 
-    # TODO: what does `index=True` mean?
     id: Mapped[int] = mapped_column(
         Integer, primary_key=True, autoincrement=True, index=True
     )

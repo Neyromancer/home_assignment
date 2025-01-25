@@ -12,7 +12,6 @@ from app import init_app
 from app.database import get_database_session, sessionmanager
 
 
-# what does `autouse` mean?
 @pytest.fixture(autouse=True)
 def app():
     with ExitStack():
@@ -30,7 +29,6 @@ def client(app):
 test_db = factories.postgresql_proc(port=None, dbname="test_db")
 
 
-# Is `request` required as a parameter?
 @pytest.fixture(scope="session")
 def event_loop(request):
     loop = asyncio.get_event_loop_policy().new_event_loop()
@@ -75,7 +73,6 @@ def test_application_data():
     ]
 
 
-# TODO: check if this scope level has to be excplicitly mentioned
 @pytest.fixture(scope="function", autouse=True)
 async def session_override(app, database_session_connection_test):
     async def get_db_override():

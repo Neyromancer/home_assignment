@@ -11,7 +11,6 @@ def init_app(init_db=True) -> FastAPI:
     if init_db:
         sessionmanager.init(config.DB_CONFIG)
 
-        # TODO: what is this for?
         @asynccontextmanager
         async def lifespan(app: FastAPI):
             yield
